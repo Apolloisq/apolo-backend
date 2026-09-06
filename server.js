@@ -16,10 +16,14 @@ const oauth2Client = new google.auth.OAuth2(
 );
 
 // 2. Configuramos la conexión con tu caja fuerte en Supabase
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
-);
+const supabaseUrl = process.env.SUPABASE_URL || 'https://tu-proyecto.supabase.co';
+const supabaseKey = process.env.SUPABASE_KEY || 'tu_supabase_key';
+
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+  console.warn("⚠️ Advertencia: Configura SUPABASE_URL y SUPABASE_KEY en las variables de entorno de Render.");
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // RUTA 1: Cuando desde el panel le dan a "+ Agregar"
 app.get('/conectar-gmail', (req, res) => {
